@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Community Genesis Mint</title>
+  <script src="https://cdn.jsdelivr.net/npm/ethers@6.10.0/dist/ethers.umd.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #0f0f0f;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .box {
+      text-align: center;
+      padding: 30px;
+      border: 1px solid #333;
+      border-radius: 12px;
+      background: #151515;
+    }
+    button {
+      padding: 12px 24px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 8px;
+      border: none;
+      background: #ff7a00;
+      color: #fff;
+      margin-top: 15px;
+    }
+    button:disabled {
+      background: #555;
+    }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h1>Community Genesis</h1>
+    <p>Mint your Genesis NFT on Citrea</p>
+    <button id="connect">Connect Wallet</button>
+    <br />
+    <button id="mint" disabled>Mint NFT</button>
+    <p id="status"></p>
+  </div>
+
+  <script>
+    const CONTRACT_ADDRESS = "0x54a6C22dAa9A39F4fcA0024037c682800768C696";
+
+    const ABI = [
+      {
+        "inputs": [],
+        "name": "mint",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      }
+    ];
+
+    let signer;
+    let contract;
+
+    document.getElementById("connect").onclick = async () => {
+      if (!window.ethereum) {
+        alert("Wallet not found");
+        return;
+      }
+
+      const provider = new ethers.BrowserProvider(window.ethereum);
+      await provider.send("eth_requestAccounts", []);
+      signer = await provider.getSigner();
+
+      contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, signer);
+
+      document.getElementById("status").innerText = "Wallet connected";
+      document.getElementById("mint").disabled = false;
+    };
+
+    document.getElementById("mint").onclick = async () => {
+      try {
+        document.getElementById("status").innerText = "Minting...";
+        const tx = await contract.mint();
+        await tx.wait();
+        document.getElementById("status").innerText = "Mint success 🎉";
+      } catch (err) {
+        document.getElementById("status").innerText = "Mint failed / already minted";
+      }
+    };
+  </script>
+</body>
+</html>
