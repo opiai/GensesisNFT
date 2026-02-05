@@ -22,9 +22,6 @@
       border-radius: 12px;
       background: #151515;
     }
-    <p style="font-size:12px;opacity:0.7;">
-  Supported wallets: OKX Wallet &amp; MetaMask • Use Citrea Network
-</p>
     button {
       padding: 12px 24px;
       font-size: 16px;
@@ -42,12 +39,17 @@
 </head>
 <body>
   <div class="box">
-    <h1>Community Genesis</h1>
-    <p>Mint your Genesis NFT on Citrea</p>
-    <button id="connect">Connect Wallet</button>
-    <br />
-    <button id="mint" disabled>Mint NFT</button>
-    <p id="status"></p>
+  <h2>Community Genesis</h2>
+  <p>Mint your Genesis NFT on Citrea</p>
+
+  <button id="connect">Connect Wallet</button>
+  <button id="mint" disabled>Mint NFT</button>
+
+  <div id="status"></div>
+
+  <p style="font-size:12px;opacity:0.7;">
+    Supported wallets: OKX Wallet &amp; MetaMask • Use Citrea Network
+  </p>
   </div>
 
   <script>
